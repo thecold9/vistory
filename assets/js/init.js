@@ -45,58 +45,76 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Menjalankan logika interaktif awal setelah HTML dirakit.
      */
-    function runAppLogic() {
-        const body = document.body;
-        const cover = document.getElementById('cover-undangan');
-        const tombolMasuk = document.getElementById('tombol-masuk');
-        const kontenUtama = document.getElementById('konten-utama');
-        const musik = document.getElementById('musik-latar');
-        const namaTamuPlaceholder = document.getElementById('nama-tamu');
-        
-        body.classList.add('scroll-lock');
+    /**
+ * Menjalankan logika interaktif awal setelah HTML dirakit. (VERSI BARU DENGAN KONTROL MUSIK)
+ */
+function runAppLogic() {
+    const body = document.body;
+    const cover = document.getElementById('cover-undangan');
+    const tombolMasuk = document.getElementById('tombol-masuk');
+    const kontenUtama = document.getElementById('konten-utama');
+    const namaTamuPlaceholder = document.getElementById('nama-tamu');
+    
+    // -- Variabel Baru untuk Musik --
+    const musik = document.getElementById('musik-latar');
+    const tombolMusik = document.getElementById('tombol-musik');
+    const iconPlay = tombolMusik.querySelector('.icon-play');
+    const iconPause = tombolMusik.querySelector('.icon-pause');
+    
+    body.classList.add('scroll-lock');
 
-        // Personalisasi nama tamu dari URL
-        const urlParams = new URLSearchParams(window.location.search);
-        let namaTamu = urlParams.get('to') || "Tamu Undangan";
-        const namaFormatted = formatNama(namaTamu);
+    // Personalisasi nama tamu dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    let namaTamu = urlParams.get('to') || "Tamu Undangan";
+    const namaFormatted = formatNama(namaTamu);
 
-        // Tampilkan nama di cover
-        namaTamuPlaceholder.innerText = namaFormatted;
+    // Tampilkan nama di cover
+    namaTamuPlaceholder.innerText = namaFormatted;
+    
+    // Isi otomatis form RSVP
+    const inputNamaRSVP = document.getElementById('nama');
+    if (inputNamaRSVP && namaTamu !== "Tamu Undangan") {
+        inputNamaRSVP.value = namaFormatted;
+        inputNamaRSVP.disabled = true;
+    }
+
+    // Event listener untuk tombol masuk
+    tombolMasuk.addEventListener('click', () => {
+        window.scrollTo(0, 0);
         
-        // Isi otomatis form RSVP
-       const inputNamaRSVP = document.getElementById('nama');
-        if (inputNamaRSVP && namaTamu !== "Tamu Undangan") {
-            inputNamaRSVP.value = namaFormatted; // Isi input
-            inputNamaRSVP.disabled = true;      // Nonaktifkan input
+        // Putar musik & tampilkan tombol kontrol
+        musik.play().catch(e => console.error("Autoplay musik gagal:", e));
+        musik.volume = 0.5;
+        tombolMusik.classList.add('show'); // <-- Tampilkan tombol musik
+
+        // Transisi dari cover ke konten utama
+        cover.style.opacity = '0';
+        setTimeout(() => { 
+            cover.style.display = 'none'; 
+        }, 1200);
+
+        pageWrapper.style.visibility = 'visible';
+        kontenUtama.style.opacity = '1';
+        
+        body.classList.remove('scroll-lock');
+        
+        initializeAllPlugins();
+    });
+
+    // -- Event Listener BARU untuk Tombol Musik --
+    tombolMusik.addEventListener('click', () => {
+        if (musik.paused) {
+            musik.play();
+            iconPlay.style.display = 'inline-block';
+            iconPause.style.display = 'none';
+        } else {
+            musik.pause();
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'inline-block';
         }
-
-        // Event listener untuk tombol masuk
-        tombolMasuk.addEventListener('click', () => {
-            // Paksa scroll ke paling atas halaman
-            window.scrollTo(0, 0);
-            
-            // Putar musik
-            musik.play().catch(e => console.error("Autoplay musik gagal:", e));
-            musik.volume = 0.5;
-
-            // Transisi dari cover ke konten utama
-            cover.style.opacity = '0';
-            setTimeout(() => { 
-                cover.style.display = 'none'; 
-            }, 1200);
-
-            pageWrapper.style.visibility = 'visible';
-            kontenUtama.style.opacity = '1';
-            
-            // Buka kembali kunci scroll
-            body.classList.remove('scroll-lock');
-            
-            // Panggil fungsi untuk menginisialisasi semua plugin dan animasi
-            initializeAllPlugins();
-        });
-        
-        // Jalankan countdown timer (bisa berjalan di belakang cover)
-        startCountdown();
+    });
+    
+    startCountdown();
     }
     
     // =========================================================================

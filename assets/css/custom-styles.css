@@ -238,6 +238,15 @@
     color: #888;
 }
 
+/* -- PERBAIKAN FONT JUDUL AGAR KONSISTEN & ELEGAN -- */
+
+.countdown-section h2,
+.lokasi-section h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700; /* Pastikan tebalnya pas */
+    text-transform: none; /* Menghilangkan efek ALL CAPS jika ada */
+    letter-spacing: 1px; /* Sedikit jarak antar huruf */
+}
 
 /* ==========================================================================
    LOCATION & MAP SECTION
@@ -658,4 +667,41 @@
     .quote-container blockquote {
         font-size: 1.8rem;
     }
+}
+
+/* -- KONTROL MUSIK -- */
+.kontrol-musik {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(44, 44, 44, 0.7);
+    color: white;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    
+    /* Awalnya, sembunyikan tombolnya */
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+.kontrol-musik.show {
+    /* Kelas ini akan ditambahkan via JS untuk menampilkan tombol */
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.kontrol-musik:hover {
+    transform: scale(1.1);
 }
