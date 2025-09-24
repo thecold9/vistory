@@ -556,6 +556,7 @@
     /* --- Scrollytelling Hero --- */
     .scrolly_hero {
         overflow-x: hidden;
+        height: 100svh;
     }
     .logo_hero-lrg {
         width: 50%;
