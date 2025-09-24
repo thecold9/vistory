@@ -109,7 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Mulai inisialisasi semua plugin...");
 
         // 1. Inisialisasi Lenis Smooth Scroll
-        const lenis = new Lenis({ lerp: 0.1 });
+        const lenis = new Lenis({
+                        lerp: 0.1,
+                        smoothTouch: true,      // <-- AKTIFKAN smooth scroll untuk perangkat sentuh
+                        touchMultiplier: 1.5,   // <-- Sesuaikan sensitivitas (angka 1.5 adalah awal yang baik)
+                    });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
         
