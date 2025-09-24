@@ -1,0 +1,645 @@
+/* -- UTILITIES -- */
+.scroll-lock {
+    overflow: hidden;
+}
+.loader {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px; height: 50px;
+    border: 5px solid #fff;
+    border-top: 5px solid #666;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10000;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* -- FONT SIZE RESET -- */
+/* html {
+    font-size: 62.5%;
+} */
+
+/* -- COVER STYLES -- */
+:root {
+    --font-heading-cover: 'Playfair Display', serif;
+    --font-body-cover: 'Montserrat', sans-serif;
+}
+
+#cover-undangan {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: url('../img/cover/cover.jpg') no-repeat center center/cover;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    font-family: var(--font-body-cover);
+    transition: opacity 1.2s ease-out, visibility 1.2s ease-out;
+}
+
+#cover-undangan::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.cover-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.cover-content p:first-of-type {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    animation: fadeIn 1s ease-in-out 0.2s backwards;
+}
+
+.cover-content h1 {
+    font-family: var(--font-heading-cover);
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    animation: fadeIn 1s ease-in-out 0.4s backwards;
+}
+
+.cover-content p:nth-of-type(2) {
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    animation: fadeIn 1s ease-in-out 0.6s backwards;
+}
+
+#nama-tamu {
+    font-family: var(--font-heading-cover);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    min-height: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    animation: fadeIn 1s ease-in-out 0.8s backwards;
+}
+
+#tombol-masuk {
+    margin-top: 2.5rem;
+    padding: 12px 35px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: var(--font-body-cover);
+    animation: fadeIn 1s ease-in-out 1s backwards;
+}
+
+#tombol-masuk:hover {
+    background: white;
+    color: #2c2c2c;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* -- MAIN CONTENT STYLES -- */
+.page-wrapper {
+    visibility: hidden;
+}
+
+#konten-utama {
+    opacity: 0;
+    transition: opacity 1.2s ease-in;
+}
+
+@media (max-width: 768px) {
+    .cover-content h1 { font-size: 3rem; }
+    #nama-tamu { font-size: 1.5rem; }
+}
+
+/* assets/css/custom-styles.css */
+
+/*
+  =======================================================
+  == PERBAIKAN FINAL UNTUK TEKS TOMBOL (STACKING ISSUE) ==
+  =======================================================
+*/
+
+/* 1. Atur .btn sebagai "panggung" atau konteks tumpukan */
+.btn.w-inline-block {
+  position: relative; /* WAJIB agar z-index di dalamnya berfungsi */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Pastikan tidak ada overflow yang menyembunyikan teks */
+  overflow: visible; 
+  /* Beri ukuran minimum jika perlu agar tidak kolaps */
+  min-height: 40px; 
+}
+
+/* 2. Posisikan gambar di lapisan paling bawah (background) */
+.btn .img_paper-rip-small {
+  position: absolute; /* Buat agar bisa menutupi seluruh area .btn */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Lapisan 1 (paling bawah) */
+}
+
+/* 3. Posisikan teks di lapisan atas (foreground) */
+/* Kita targetkan <p> dan <div> karena Anda mungkin menggunakan salah satunya */
+.btn p, .btn div {
+  position: relative; /* Agar bisa diberi z-index */
+  z-index: 2; /* Lapisan 2 (pasti di atas gambar) */
+  
+  /* Atur ulang warna & ukuran untuk memastikan terlihat saat testing */
+  color: #333; /* Coba warna gelap untuk tes */
+  font-size: 10px; /* Atur ukuran eksplisit */
+  font-weight: 600; /* Buat sedikit tebal */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* assets/css/custom-styles.css */
+
+/*
+  =======================================================
+  == REVISI FINAL COUNTDOWN: Layout Horizontal ==
+  =======================================================
+*/
+
+.countdown-section {
+    background-color: transparent;
+    border: none;
+    padding: 4rem 20px; /* Tambahkan padding horizontal */
+    text-align: center;
+}
+
+.countdown-section h2 {
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: #333; 
+}
+
+/* --- PERUBAHAN UTAMA ADA DI SINI --- */
+
+#countdown {
+    display: flex; /* Tetap gunakan flexbox */
+    justify-content: center; /* Posisikan di tengah */
+    gap: 1.5rem; /* Jarak antar kotak */
+    
+    /* Beri batasan lebar agar tidak terlalu besar di layar desktop */
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto; /* Posisikan container countdown di tengah section */
+}
+
+#countdown > div {
+    /* Ini adalah perintah kuncinya.
+       flex: 1; memerintahkan setiap kotak untuk mengambil
+       ruang yang sama secara adil di dalam container. */
+    flex: 1;
+    
+    /* Kita juga bisa beri batas lebar maksimum untuk setiap kotak */
+    max-width: 150px;
+
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 1rem; /* Padding disamakan atas-bawah dan kiri-kanan */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+#countdown > div:hover {
+    transform: translateY(-5px);
+}
+
+#countdown span {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--dark-color, #2c2c2c);
+}
+
+#countdown p {
+    font-size: 0.8rem; /* Sedikit diperkecil agar pas */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+    color: #888;
+}
+
+@media screen and (max-width: 479px) {
+
+    /* --- 1. Perbaikan Cover --- */
+    .cover-content h1 {
+        font-size: 2.8rem; /* Perkecil judul utama */
+        line-height: 1.3;
+    }
+    #nama-tamu {
+        font-size: 1.6rem; /* Perkecil nama tamu */
+    }
+    #tombol-masuk {
+        padding: 10px 25px;
+        font-size: 0.8rem;
+    }
+
+    /* --- 2. Perbaikan Scrollytelling Hero --- */
+    .scrolly_hero {
+        /* Hindari elemen keluar layar dengan overflow hidden jika perlu */
+        overflow-x: hidden;
+    }
+    .logo_hero-lrg {
+        width: 50%; /* Perkecil ukuran logo di awal */
+        max-width: 150px;
+    }
+    .text-giant.front {
+        font-size: 3rem; /* Perkecil teks "Our Story" */
+    }
+    
+    /* --- 3. Perbaikan Countdown --- */
+    #countdown {
+        gap: 0.5rem; /* Kurangi jarak antar kotak */
+    }
+    #countdown > div {
+        padding: 0.8rem; /* Perkecil padding di dalam kotak */
+        min-width: 70px; /* Izinkan kotak menjadi lebih kecil */
+        flex-basis: 75px; /* Beri basis ukuran yang lebih kecil */
+    }
+    #countdown span {
+        font-size: 2rem; /* Perkecil angka */
+    }
+    #countdown p {
+        font-size: 0.65rem; /* Perkecil label (Hari, Jam, dll) */
+    }
+
+    /* --- 4. Perbaikan Galeri Foto & Teksnya --- */
+    .section.home_hero {
+        /* Kurangi padding vertikal di mobile */
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    .heading-style-h1.hero {
+        font-size: 1.8rem; /* Perkecil ukuran font quote secara drastis */
+        line-height: 1.5;
+    }
+
+    /* --- 5. Perbaikan Footer (Carousel) --- */
+    .wrap_ig-carousel {
+        padding-bottom: 15px; /* Kurangi padding bawah */
+    }
+    .ig_carousel {
+        padding: 0 1rem; /* Kurangi padding horizontal */
+    }
+    .img_ig-carousel {
+        width: 200px; /* Perkecil ukuran gambar di film strip */
+    }
+    .heading-style-h1 {
+        font-size: 2.2rem; /* Perkecil semua judul H1 lainnya */
+    }
+
+}
+
+
+/* assets/css/custom-styles.css */
+
+/*
+  ==============================================
+  == STYLING UNTUK KOMPONEN PETA LOKASI ==
+  ==============================================
+*/
+.lokasi-section {
+    padding: 4rem 20px;
+    background-color: transparent;
+    text-align: center;
+}
+
+.lokasi-section h2 {
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: #333;
+}
+
+.peta-container {
+    max-width: 900px;
+    margin: 0 auto;
+    border: 5px solid white;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden; /* Memastikan iframe mengikuti border-radius */
+}
+
+.peta-container iframe {
+    display: block; /* Menghilangkan spasi ekstra di bawah iframe */
+}
+
+/*
+  ==============================================
+  == DESAIN BARU UNTUK RSVP FORM ==
+  ==============================================
+*/
+.rsvp-section {
+    padding: 5rem 20px;
+    /* background-color: #f4f1ec; */
+    text-align: center;
+}
+
+.title-decorator {
+    margin-bottom: 1rem;
+}
+.title-decorator img {
+    height: 100px;
+    opacity: 0.5;
+}
+
+.rsvp-section h2 {
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.rsvp-subtitle {
+    max-width: 500px;
+    margin: 0 auto 3rem auto;
+    color: #666;
+    line-height: 1.6;
+}
+
+.form-container { max-width: 800px; /* Lebarkan sedikit untuk 2 kolom */ margin: 0 auto; text-align: left; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.75rem; font-weight: 500; color: #444; }
+.form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: var(--font-body-cover, 'Montserrat', sans-serif); font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
+.form-group input[type="text"]:focus, .form-group textarea:focus { outline: none; border-color: var(--gold-color, #D4AF37); box-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
+.radio-group { display: flex; gap: 1.5rem; padding-top: 10px; /* Sejajarkan dengan input nama */ }
+.radio-label { display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer; }
+
+/* -- CSS untuk layout 2 kolom -- */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dua kolom dengan lebar sama */
+    gap: 2rem; /* Jarak antar kolom */
+}
+
+/* -- Desain baru untuk tombol -- */
+.form-container .cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background: var(--dark-color, #2c2c2c);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.form-container .cta-button:hover {
+    background: var(--gold-color, #D4AF37);
+}
+
+/* -- Aturan untuk Mobile -- */
+@media (max-width: 767px) {
+    .form-row {
+        grid-template-columns: 1fr; /* Kembali ke 1 kolom di mobile */
+        gap: 1.5rem;
+    }
+    .radio-group {
+        padding-top: 0;
+    }
+}
+
+.form-group input[type="text"]:disabled {
+    background-color: #ececec; /* Warna latar sedikit abu-abu */
+    color: #555; /* Pastikan teks tetap terbaca jelas */
+    cursor: not-allowed; /* Ubah kursor untuk menandakan tidak bisa diklik */
+    border-color: #ddd;
+}
+
+/* Pastikan style ini ada di custom-styles.css */
+.wishes-section {
+    padding: 4rem 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.wishes-section h2 {
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: #333;
+}
+
+#wishes-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.wish-card {
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.wish-card h4 {
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    margin-bottom: 0.5rem;
+}
+
+.wish-card p {
+    font-style: italic;
+    color: #555;
+}
+/* assets/css/custom-styles.css */
+
+/*
+  ==============================================
+  == STYLING UNTUK KOMPONEN QUOTE SECTION ==
+  ==============================================
+*/
+/* assets/css/custom-styles.css */
+
+/*
+  ==============================================
+  == ANIMASI SAKURA GUGUR UNTUK QUOTE SECTION ==
+  ==============================================
+*/
+
+/* Pastikan section quote memiliki position relative */
+.quote-section {
+    position: relative;
+    overflow: hidden; /* Sembunyikan kelopak yang keluar dari area */
+}
+
+.falling-petals {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Posisikan di antara background dan teks */
+}
+
+.petal {
+    position: absolute;
+    top: -10%; /* Mulai dari atas layar */
+    width: 20px;
+    height: 20px;
+    background-image: url('../img/leaf.png'); /* Panggil gambar kelopak */
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    /* Jalankan animasi 'fall' */
+    animation: fall 15s linear infinite;
+}
+
+/* Kunci dari efek acak: setiap kelopak punya properti animasi yang berbeda */
+.petal:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 15s; }
+.petal:nth-child(2) { left: 20%; animation-delay: -5s; animation-duration: 12s; width: 15px; height: 15px; }
+.petal:nth-child(3) { left: 30%; animation-delay: -2s; animation-duration: 18s; }
+.petal:nth-child(4) { left: 40%; animation-delay: -8s; animation-duration: 14s; width: 25px; height: 25px; }
+.petal:nth-child(5) { left: 50%; animation-delay: -1s; animation-duration: 16s; }
+.petal:nth-child(6) { left: 60%; animation-delay: -6s; animation-duration: 13s; width: 18px; height: 18px; }
+.petal:nth-child(7) { left: 70%; animation-delay: -3s; animation-duration: 20s; }
+.petal:nth-child(8) { left: 80%; animation-delay: -7s; animation-duration: 11s; width: 22px; height: 22px; }
+.petal:nth-child(9) { left: 90%; animation-delay: -4s; animation-duration: 17s; }
+.petal:nth-child(10) { left: 5%; animation-delay: -9s; animation-duration: 15s; }
+.petal:nth-child(11) { left: 85%; animation-delay: -1s; animation-duration: 19s; }
+.petal:nth-child(12) { left: 45%; animation-delay: -5s; animation-duration: 13s; }
+
+/* Definisi animasi 'fall' */
+@keyframes fall {
+    0% {
+        top: -10%;
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        top: 110%;
+        /* Gerakan horizontal (bergoyang) dan berputar */
+        transform: translateX(100px) rotate(360deg);
+        opacity: 0.5;
+    }
+}
+
+/* assets/css/custom-styles.css */
+
+/*
+  ==============================================
+  == STYLING UNTUK KOMPONEN QUOTE SECTION ==
+  ==============================================
+*/
+.quote-section {
+    position: relative;
+    padding: 10rem 20px; /* Padding lebih besar untuk efek dramatis */
+    
+    /* GANTI DENGAN URL GAMBAR ANDA - Pilih gambar yang gelap atau berstuasana malam */
+    background-image: url('https://images.unsplash.com/photo-1532767153582-b1a0e5145009?q=80&w=1965&auto=format&fit=crop');
+    
+    /* Efek Parallax */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Overlay gelap agar teks putih terbaca jelas */
+.quote-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 20, 35, 0.6); /* Warna overlay kebiruan/gelap */
+}
+
+.quote-container {
+    position: relative;
+    z-index: 2; /* Pastikan di atas overlay */
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.opening-quote, .closing-quote {
+    position: absolute;
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    font-size: 10rem; /* Tanda kutip raksasa */
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.1); /* Dibuat sangat transparan */
+}
+
+.opening-quote {
+    top: -2rem;
+    left: 0;
+}
+
+.closing-quote {
+    bottom: -3rem;
+    right: 0;
+}
+
+.quote-container blockquote {
+    font-family: var(--font-heading-cover, 'Playfair Display', serif);
+    font-size: 2.5rem;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #FFFFFF; /* Teks kutipan berwarna putih */
+    margin: 0;
+}
+
+.quote-container cite {
+    display: block;
+    margin-top: 2rem;
+    font-family: var(--font-body-cover, 'Montserrat', sans-serif);
+    font-style: normal;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8); /* Warna nama penulis sedikit redup */
+}
+
+/* Penyesuaian untuk mobile */
+@media screen and (max-width: 479px) {
+    .quote-section {
+        padding: 6rem 20px;
+    }
+    .opening-quote, .closing-quote {
+        font-size: 6rem;
+    }
+    .quote-container blockquote {
+        font-size: 1.8rem;
+    }
+}
