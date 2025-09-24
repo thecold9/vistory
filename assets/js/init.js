@@ -142,8 +142,28 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             console.error("Fungsi jalankanAnimasiKustom() tidak ditemukan di script.js");
         }
+
+        // 5. Efek Fade-in untuk Halaman Quotes (Expert Touch)
+        // Pastikan Anda sudah mengimpor GSAP dan ScrollTrigger!
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.to("#quote-page", {
+                opacity: 1,
+                ease: "power2.out",
+                duration: 1.5, // Durasi fade-in
+                scrollTrigger: {
+                    trigger: "#quote-page",
+                    start: "top center+=20%", // Kapan animasi dimulai (saat 20% dari bagian atas halaman quotes terlihat di tengah layar)
+                    toggleActions: "play none none none", // Mainkan hanya sekali saat masuk
+                    // markers: true // Hapus atau komentar ini di produksi
+                }
+            });
+            console.log("Animasi fade-in halaman quotes diinisialisasi.");
+        } else {
+            console.warn("GSAP atau ScrollTrigger tidak dimuat, efek fade-in quotes tidak akan berjalan.");
+        }
+
         
-        // 5. Panggil fungsi untuk menampilkan ucapan
+        // 6. Panggil fungsi untuk menampilkan ucapan
         tampilkanUcapan();
     }
 

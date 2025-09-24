@@ -424,98 +424,140 @@
 
 
 /* ==========================================================================
-   QUOTE SECTION
+   QUOTE SECTION - REVISI AKHIR: FIX GARIS GANDA & TATA LETAK
    ========================================================================== */
 
-.quote-section {
+.section.quote-section {
     position: relative;
-    overflow: hidden; /* Mencegah animasi kelopak keluar dari section */
-    padding: 10rem 20px;
-    background-image: url('https://images.unsplash.com/photo-1532767153582-b1a0e5145009?q=80&w=1965&auto=format&fit=crop');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem; /* Padding global untuk kontainer agar tidak terlalu mepet */
+    box-sizing: border-box;
+    opacity: 0; /* Mulai dengan transparan untuk efek fade-in */
+    transition: opacity 1.5s ease-out; /* Durasi fade-in */
 }
 
-.quote-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(20, 20, 35, 0.6);
+.section.quote-section.is-active {
+    opacity: 1;
 }
 
 .quote-container {
     position: relative;
-    z-index: 2;
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
+    width: 100%;
+    max-width: 900px;
+    padding: 4rem; /* Padding yang cukup besar untuk menjaga jarak dari simbol quotes */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.opening-quote, .closing-quote {
-    position: absolute;
-    font-family: var(--font-heading-cover, 'Playfair Display', serif);
-    font-size: 10rem;
-    line-height: 1;
-    color: rgba(255, 255, 255, 0.1);
-}
+/* --- Garis Vertikal --- */
+/* HAPUS ATAU KOMENTARI SEMUA KODE UNTUK .vertical-line DI SINI */
+/* Jika garis Anda berasal dari Webflow, biarkan saja CSS Webflow Anda bekerja */
 
-.opening-quote {
-    top: -2rem;
-    left: 0;
-}
 
-.closing-quote {
-    bottom: -3rem;
-    right: 0;
-}
-
+/* --- Teks Kutipan Utama (blockquote) --- */
 .quote-container blockquote {
-    font-family: var(--font-heading-cover, 'Playfair Display', serif);
-    font-size: 2.5rem; /* Ukuran default untuk desktop */
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
     font-style: italic;
     font-weight: 700;
     line-height: 1.6;
     color: #FFFFFF;
-    margin: 0 auto;
-    max-width: 45ch; /* Batasi lebar berdasarkan karakter, bukan piksel */
-    
-    /* INI KUNCINYA: Memerintahkan browser untuk menyeimbangkan baris teks */
+    text-align: center;
+    margin: 0;
+    max-width: 55ch; /* Lebar optimal untuk keterbacaan */
     text-wrap: balance;
+    position: relative;
+    z-index: 1;
+    /* TIDAK ADA padding di sini agar flexbox yang mengatur */
 }
 
-/* Penyesuaian khusus untuk mobile */
-@media screen and (max-width: 479px) {
-    .quote-container blockquote {
-        font-size: 1.8rem; /* Ukuran font yang sedikit lebih besar dari saran sebelumnya, karena text-wrap akan membantu */
-        line-height: 1.5;
-    }
-}
-/* -- TAMBAHAN: Perbaikan khusus untuk layar SANGAT SEMPIT (di bawah 360px) -- */
-@media screen and (max-width: 360px) {
-    .quote-container blockquote {
-        font-size: 2.0rem; /* <-- Ukuran font dikecilkan drastis */
-        line-height: 1.5;  /* <-- Jarak antar baris disesuaikan */
-        max-width: 95%;    /* <-- Sedikit ruang di pinggir */
-    }
-}
-
+/* --- Penulis Kutipan (cite) --- */
 .quote-container cite {
     display: block;
-    margin-top: 2rem;
-    font-family: var(--font-body-cover, 'Montserrat', sans-serif);
+    text-align: center;
+    margin-top: 1.5rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
     font-style: normal;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
     color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Simbol Quotes Besar (opening-quote & closing-quote) --- */
+.opening-quote {
+    position: absolute;
+    top: 0.5rem; /* Sedikit offset dari atas */
+    left: 80px;  /* **KUNCI:** Geser lebih jauh ke kanan agar tidak nabrak garis yang sudah ada */
+    font-family: 'Playfair Display', serif;
+    font-size: 10rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.1);
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.closing-quote {
+    position: absolute;
+    bottom: 0.5rem; /* Sedikit offset dari bawah */
+    right: 20px; /* Sedikit offset dari kanan */
+    font-family: 'Playfair Display', serif;
+    font-size: 10rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.1);
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
 }
 
 
+/* --- Responsif untuk Mobile --- */
+@media (max-width: 767px) {
+    .quote-container {
+        padding: 2.5rem 1rem;
+    }
+
+    .quote-container blockquote {
+        font-size: 1.6rem;
+        /* padding: 0 10px; */ /* Tidak diperlukan lagi padding di sini */
+    }
+
+    .quote-container cite {
+        font-size: 0.9rem;
+    }
+
+    .opening-quote {
+        font-size: 6rem;
+        top: 0.2rem;
+        left: 45px; /* **KUNCI:** Sesuaikan posisi left di mobile agar tidak nabrak garis */
+    }
+
+    .closing-quote {
+        font-size: 6rem;
+        bottom: 0.2rem;
+        right: 10px;
+    }
+
+    /* HAPUS ATAU KOMENTARI JUGA ATURAN UNTUK .vertical-line DI MEDIA QUERY INI */
+}
+
+/* Perbaikan untuk font Playfair Display agar selalu bold di 700 jika Druk tidak dimuat */
+.quote-container blockquote, .opening-quote, .closing-quote {
+    font-family: 'Playfair Display', serif; /* Pastikan Playfair sebagai fallback */
+    font-weight: 700; /* Pastikan bold */
+}
+
+
+/* .wrap_scrolly-middle {
+    height: 200vh; 
+} */
 /* ==========================================================================
    RESPONSIVE STYLES
    ========================================================================== */
