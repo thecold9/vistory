@@ -51,5 +51,12 @@
         <i class="fa-solid fa-volume-xmark icon-pause" style="display: none;"></i>
     </button>
 
-</body>
+    <form name="rsvp" netlify netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="rsvp" />
+        <input type="text" name="name" />
+        <input type="radio" name="attendance" />
+        <input type="number" name="guests" /> <textarea name="wish"></textarea>
+        <input name="bot-field" />
+    </form>
+    </body>
 </html>
