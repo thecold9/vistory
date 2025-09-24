@@ -47,7 +47,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: url('../img/cover/cover.jpg') no-repeat center center/cover;
+    background: url('../img/cover/cover.webp') no-repeat center center/cover;
     z-index: 9999;
     display: flex;
     justify-content: center;
