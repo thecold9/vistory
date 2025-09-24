@@ -32,11 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loadComponent('./components/cover.html', 'cover-placeholder'),
             loadComponent('./components/scrolly-hero.html', 'scrolly-hero-placeholder'),
             loadComponent('./components/gallery.html', 'gallery-placeholder'),
-            //  loadComponent('./components/quote.html', 'quote-placeholder'),
             loadComponent('./components/countdown.html', 'countdown-placeholder'),
             loadComponent('./components/map.html', 'map-placeholder'),
             loadComponent('./components/rsvp.html', 'rsvp-placeholder'),
-            // loadComponent('./components/wishes.html', 'wishes-placeholder'),
             loadComponent('./components/footer.html', 'footer-placeholder')
         ]);
         
@@ -69,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
        const inputNamaRSVP = document.getElementById('nama');
         if (inputNamaRSVP && namaTamu !== "Tamu Undangan") {
             inputNamaRSVP.value = namaFormatted; // Isi input
-            inputNamaRSVP.disabled = true;     // Nonaktifkan input
+            inputNamaRSVP.disabled = true;      // Nonaktifkan input
         }
 
         // Event listener untuk tombol masuk
@@ -101,38 +99,51 @@ document.addEventListener('DOMContentLoaded', () => {
         startCountdown();
     }
     
+    // =========================================================================
+    // == REVISI UTAMA: FUNGSI INITIALIZEALLPLUGINS() DENGAN SINKRONISASI GSAP ==
+    // =========================================================================
     /**
-     * Menginisialisasi semua plugin (Lenis, Webflow, GSAP kustom)
-     * Fungsi ini HANYA dipanggil setelah pengguna mengklik tombol masuk.
+     * Menginisialisasi semua plugin (Lenis, Webflow, GSAP kustom) setelah pengguna masuk.
+     * Termasuk sinkronisasi antara Lenis (smooth scroll) dan GSAP (animasi).
      */
     function initializeAllPlugins() {
-        console.log("Mulai inisialisasi semua plugin...");
-
-        // 1. Inisialisasi Lenis Smooth Scroll
+        console.log("Mulai inisialisasi semua plugin dan sinkronisasi scroll...");
+    
+        // 1. Inisialisasi Lenis Smooth Scroll (dengan pengaturan mobile)
         const lenis = new Lenis({
-                        lerp: 0.1,
-                        smoothTouch: true,      // <-- AKTIFKAN smooth scroll untuk perangkat sentuh
-                        touchMultiplier: 1.5,   // <-- Sesuaikan sensitivitas (angka 1.5 adalah awal yang baik)
-                    });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+            lerp: 0.1,
+            smoothTouch: true,
+            touchMultiplier: 1.5,
+        });
+    
+        // 2. SINKRONISASI LENIS & GSAP SCROLLTRIGGER
+        // Memberitahu ScrollTrigger untuk mengupdate animasinya setiap kali Lenis melakukan scroll.
+        lenis.on('scroll', ScrollTrigger.update);
+    
+        // Mengintegrasikan Lenis ke dalam "ticker" (loop animasi) milik GSAP 
+        // yang lebih efisien daripada requestAnimationFrame manual.
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
         
-        // 2. "Bangunkan" kembali Webflow
+        gsap.ticker.lagSmoothing(0);
+    
+        // 3. "Bangunkan" kembali Webflow
         if (window.Webflow) {
             window.Webflow.destroy();
             window.Webflow.ready();
             window.Webflow.require('ix2').init();
             console.log("Animasi Webflow diinisialisasi ulang.");
         }
-
-        // 3. Panggil fungsi dari script.js untuk menjalankan Draggable dan animasi GSAP kustom
+    
+        // 4. Panggil fungsi dari script.js untuk menjalankan Draggable dan animasi GSAP kustom
         if (typeof jalankanAnimasiKustom === 'function') {
             jalankanAnimasiKustom();
         } else {
             console.error("Fungsi jalankanAnimasiKustom() tidak ditemukan di script.js");
         }
         
-        // 4. Panggil fungsi untuk menampilkan ucapan
+        // 5. Panggil fungsi untuk menampilkan ucapan
         tampilkanUcapan();
     }
 
@@ -140,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Menjalankan logika untuk countdown timer.
      */
     function startCountdown() {
+        // Menggunakan tanggal sekarang, 24 September 2025, sebagai contoh
         const tanggalAcara = new Date("2025-10-18T19:00:00").getTime();
         const countdownElement = document.getElementById("countdown");
         if (!countdownElement) return;

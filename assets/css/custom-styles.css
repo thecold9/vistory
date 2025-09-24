@@ -3,17 +3,6 @@
    ========================================================================== */
 /* -- PERBAIKAN PERFORMA SCROLL MOBILE -- */
 
-html, body {
-    /* Mencegah efek 'bounce' atau 'pull-to-refresh' yang mengganggu */
-    overscroll-behavior: none;
-}
-
-/* Beri petunjuk ke browser elemen mana yang akan banyak bergerak/berubah */
-.img-hero, 
-.ix-heading-wrap {
-    will-change: transform;
-}
-
 .scroll-lock {
     overflow: hidden;
 }
