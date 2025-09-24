@@ -6,28 +6,26 @@
         <h2>Will You Be There?</h2>
         <p class="rsvp-subtitle">Please let us know if you'll be able to celebrate with us by October 18th, 2025.</p>
         
-        <form name="rsvp" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="form-container">
+        <form name="rsvp" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="form-container" id="rsvp-form">
             <input type="hidden" name="form-name" value="rsvp" />
             <p class="hidden" style="display:none;"><label>Spam trap: <input name="bot-field" /></label></p>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="nama">Your Name</label>
-                    <input type="text" id="nama" name="nama" required />
-                </div>
+                    <input type="text" id="nama" name="name" required /> </div>
                 <div class="form-group">
                     <label>Will you be attending?</label>
                     <div class="radio-group">
-                        <label class="radio-label"><input type="radio" name="kehadiran" value="Hadir" checked> Joyfully Accept</label>
-                        <label class="radio-label"><input type="radio" name="kehadiran" value="Tidak Hadir"> Regretfully Decline</label>
+                        <label class="radio-label"><input type="radio" name="attendance" value="Accept" checked> Joyfully Accept</label>
+                        <label class="radio-label"><input type="radio" name="attendance" value="Decline"> Regretfully Decline</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="ucapan">Leave a Wish for the Couple</label>
-                <textarea id="ucapan" name="ucapan" rows="5" placeholder="Share a memory or a wish for our future..." required></textarea>
-            </div>
+                <textarea id="ucapan" name="wish" rows="5" placeholder="Share a memory or a wish for our future..." required></textarea> </div>
 
             <button type="submit" class="cta-button">
                 Send RSVP <i class="fa-solid fa-paper-plane"></i>

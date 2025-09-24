@@ -180,6 +180,46 @@ function runAppLogic() {
             console.warn("GSAP atau ScrollTrigger tidak dimuat, efek fade-in quotes tidak akan berjalan.");
         }
 
+        // ... (kode initializeAllPlugins() lainnya) ...
+
+        // 6. FUNGSI UNTUK "ADD TO CALENDAR"
+        const calendarBtn = document.getElementById('add-to-calendar-btn');
+        const calendarLinks = document.getElementById('calendar-links');
+        const icsLink = document.getElementById('ics-link');
+
+        if (calendarBtn && calendarLinks && icsLink) {
+            // Data untuk file .ics (Apple & Outlook)
+            const icsData = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'BEGIN:VEVENT',
+                'SUMMARY:Pernikahan Victor & Inge',
+                'DTSTART;TZID=Asia/Jakarta:20251018T190000',
+                'DTEND;TZID=Asia/Jakarta:20251018T220000',
+                'LOCATION:Aroem Resto & Cafe Jakarta, Jl. Abdul Muis No.14, Jakarta Pusat',
+                'DESCRIPTION:Acara pernikahan Victor & Inge. Jangan lupa hadir!',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\n');
+
+            // Set link untuk file .ics menggunakan Data URI
+            icsLink.href = 'data:text/calendar;charset=utf8,' + encodeURIComponent(icsData);
+
+            // Tampilkan/sembunyikan menu saat tombol diklik
+            calendarBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // Mencegah klik menyebar ke window
+                calendarLinks.classList.toggle('show');
+            });
+            
+            // Sembunyikan menu saat mengklik di luar
+            window.addEventListener('click', () => {
+                if (calendarLinks.classList.contains('show')) {
+                    calendarLinks.classList.remove('show');
+                }
+            });
+        }
+ 
+
         
         // 6. Panggil fungsi untuk menampilkan ucapan
         tampilkanUcapan();
