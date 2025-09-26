@@ -128,7 +128,33 @@ function jalankanAnimasiKustom() {
         ease: "power2.out"
     }, "-=0.4"); // Dimulai 0.4 detik sebelum animasi sebelumnya selesai (overlap)
 
+    // --- ANIMASI UNTUK PROFILE SECTION ---
+        const profileSection = document.querySelector(".profile-section");
+        if (profileSection) {
+            gsap.to(".bride", {
+                x: 0,
+                opacity: 1,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: profileSection,
+                    start: "top center",
+                    toggleActions: "play none none reverse"
+                }
+            });
 
+            gsap.to(".groom", {
+                x: 0,
+                opacity: 1,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: profileSection,
+                    start: "top center",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        }
 
     // --- REFRESH SCROLLTRIGGER (TETAP DI AKHIR) ---
     ScrollTrigger.refresh();

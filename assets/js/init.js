@@ -33,8 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
             loadComponent('./components/scrolly-hero.html', 'scrolly-hero-placeholder'),
             loadComponent('./components/hero-story.html', 'hero-story-placeholder'),
             loadComponent('./components/gallery.html', 'gallery-placeholder'),
-            loadComponent('./components/countdown.html', 'countdown-placeholder'),
-            loadComponent('./components/map.html', 'map-placeholder'),
+            loadComponent('./components/profile.html', 'profile-placeholder'),
+            loadComponent('./components/event-details.html', 'event-details-placeholder'),
+            // loadComponent('./components/countdown.html', 'countdown-placeholder'),
+            // loadComponent('./components/map.html', 'map-placeholder'),
             loadComponent('./components/rsvp.html', 'rsvp-placeholder'),
             loadComponent('./components/footer.html', 'footer-placeholder')
         ]);
