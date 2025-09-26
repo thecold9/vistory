@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await Promise.all([
             loadComponent('./components/cover.html', 'cover-placeholder'),
             loadComponent('./components/scrolly-hero.html', 'scrolly-hero-placeholder'),
+            loadComponent('./components/hero-story.html', 'hero-story-placeholder'),
             loadComponent('./components/gallery.html', 'gallery-placeholder'),
             loadComponent('./components/countdown.html', 'countdown-placeholder'),
             loadComponent('./components/map.html', 'map-placeholder'),

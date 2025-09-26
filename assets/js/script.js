@@ -7,6 +7,7 @@ function jalankanAnimasiKustom() {
     gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin, Physics2DPlugin);
     
     // --- FUNGSI-FUNGSI ANIMASI ANDA (TETAP SAMA) ---
+    
 
     // WORD REVEAL TEXT
     document.querySelectorAll("[data-word-reveal='true']").forEach((text) => {
@@ -27,6 +28,11 @@ function jalankanAnimasiKustom() {
     Draggable.create("[data-drag='true']", {
         inertia: true,
     });
+
+ 
+
+    // --- Inisialisasi awal sebelum animasi ---
+    gsap.set(".story-title", { y: 50, scale: 0.9 });
 
     // =================================================================
     // == BAGIAN BARU: LOGIKA UNTUK FORM RSVP ==
@@ -91,6 +97,37 @@ function jalankanAnimasiKustom() {
             });
         });
     }
+
+    // --- ANIMASI UNTUK HERO STORY BARU (TERPISAH PER KATA) ---
+    // Membuat timeline baru untuk animasi berurutan
+    let storyTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".hero-story",
+            start: "top center+=100",
+            toggleActions: "play none none reset" // Tetap terpicu ulang
+            // markers: true // Hapus comment ini untuk debug ScrollTrigger
+        }
+    });
+
+    // Inisialisasi awal sebelum animasi
+    gsap.set(".word-our", { y: 30, opacity: 0 });
+    gsap.set(".word-story", { y: 30, opacity: 0 });
+
+    // Animasi untuk "Our"
+    storyTimeline.to(".word-our", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    })
+    // Animasi untuk "Story", dimulai setelah "Our" selesai
+    .to(".word-story", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    }, "-=0.4"); // Dimulai 0.4 detik sebelum animasi sebelumnya selesai (overlap)
+
 
 
     // --- REFRESH SCROLLTRIGGER (TETAP DI AKHIR) ---
