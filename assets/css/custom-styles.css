@@ -907,7 +907,10 @@
     }
 }
 
-/* -- EVENT DETAILS SECTION (REVISI LAYOUT KANAN-KIRI) -- */
+/* ==========================================================================
+   EVENT DETAILS SECTION - (REVISI FINAL DENGAN HEADER + 3 KOLOM)
+   ========================================================================== */
+
 .event-section {
     padding: 6rem 2rem;
     background-color: #f7f5f0;
@@ -917,66 +920,130 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.event-container-grid {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Kunci utama: 2 kolom sama lebar */
-    align-items: center; /* Sejajarkan kedua kolom secara vertikal */
-    gap: 4rem;
+/* KUNCI #1: Header baru untuk Judul & Countdown */
+.event-header {
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
-.event-info {
-    font-family: 'Montserrat', sans-serif;
-}
-
-.event-title {
+.event-header .event-title {
     font-family: 'Playfair Display', serif;
     font-size: 3.5rem;
     color: #333;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.event-header .countdown-integrated {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 600px; /* Batasi lebar countdown */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.event-header .countdown-integrated > div { background: rgba(255, 255, 255, 0.8); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.event-header .countdown-integrated span { display: block; font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 600; color: #333; }
+.event-header .countdown-integrated p { margin: 5px 0 0 0; font-family: 'Montserrat', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+
+
+/* KUNCI #2: Grid 3 kolom untuk detail di bawah header */
+.event-details-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr; /* 3 kolom, peta sedikit lebih lebar */
+    align-items: flex-start; /* Ratakan dari atas */
+    gap: 3rem;
+}
+
+.event-col {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* GAYA UNTUK JUDUL BLOK ACARA DENGAN IKON */
+.event-block-title {
+    display: inline-flex; /* Agar wadah pas dengan kontennya */
+    align-items: center;  /* Kunci: Menyejajarkan gambar dan teks secara vertikal */
+    gap: 1rem;            /* Jarak antara gambar dan teks */
+    
+    /* Gaya font yang sudah ada sebelumnya */
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0 0 1.5rem 0; /* Jarak bawah */
+}
+
+.event-block-title img {
+    /* KUNCI: Ukuran gambar agar tidak terlalu besar */
+    width: 35px;    /* Lebar tetap untuk gambar */
+    height: auto;   /* Tinggi otomatis agar proporsi gambar terjaga */
+    object-fit: contain; /* Pastikan gambar terlihat utuh */
+    flex-shrink: 0; /* Penting: mencegah gambar mengecil di ruang sempit */
 }
 
 .info-block {
     display: flex;
     align-items: flex-start;
     margin-bottom: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
 }
+.info-block i { font-size: 1rem; color: #a38a6a; margin-right: 1rem; margin-top: 5px; width: 16px; text-align: center; }
+.info-block h5 { margin: 0 0 4px 0; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: #888; }
+.info-block p { margin: 0; font-size: 1rem; color: #444; line-height: 1.6; }
 
-.info-block i {
-    font-size: 1.5rem;
-    color: #a38a6a;
-    margin-right: 1.5rem;
-    margin-top: 5px;
-}
 
-.info-block h4 {
-    margin: 0 0 5px 0;
-    font-size: 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #888;
-}
-
-.info-block p {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #444;
-    line-height: 1.6;
+.calendar-button-wrapper {
+    margin-top: 1.5rem;
 }
 
 .event-map {
     width: 100%;
-    height: 450px; /* Atur tinggi peta */
+    height: 100%;
+    min-height: 400px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 5px 25px rgba(0,0,0,0.1);
 }
 
-.calendar-button-wrapper {
-    margin-top: 2.5rem;
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    /* 1. Ubah layout utama menjadi 1 kolom */
+    .event-details-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    /* 2. Pusatkan semua konten di dalam kolom secara default */
+    .event-details-grid .event-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* KUNCI: Memusatkan semua blok di dalamnya */
+        text-align: center;
+    }
+    
+    /* 3. Atur ulang blok acara agar rapi saat terpusat */
+    .event-block {
+        width: 100%;
+        max-width: 400px; /* Batasi lebar agar tidak terlalu aneh di tablet */
+    }
+
+    /* 4. Pastikan setiap baris detail (Date, Time, Location) tersusun benar */
+    .info-block {
+        display: flex;      /* Tetap gunakan flex untuk ikon + teks */
+        text-align: left;   /* KUNCI: Teks di dalamnya KEMBALI rata kiri agar mudah dibaca */
+        width: 100%;        /* Ambil lebar penuh dari .event-block */
+        margin-bottom: 1rem;
+    }
+
+    .event-map {
+        width: 100%;
+        max-width: 500px; /* Batasi juga lebar peta agar seimbang */
+    }
 }
+
 
 /* --- Responsif untuk Mobile --- */
 @media (max-width: 767px) {
@@ -1084,3 +1151,24 @@
         height: 200px;
     }
 }
+
+/* --- SIMBOL "&" PENYATU --- */
+.uniting-symbol {
+    font-family: 'Playfair Display', serif; /* Font yang sama dengan judul */
+    font-size: 4rem;      /* Ukuran simbol */
+    color: #a38a6a;       /* Warna aksen Anda */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;           /* Sembunyikan untuk animasi */
+    transform: scale(0.8);
+}
+
+/* Penyesuaian di mobile */
+@media (max-width: 767px) {
+    .uniting-symbol {
+        margin: -1rem 0; /* Mengatur jarak di antara profil saat vertikal */
+        transform: rotate(90deg); /* (Opsional) Putar simbol saat vertikal */
+    }
+}
+
