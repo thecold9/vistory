@@ -479,9 +479,7 @@
     background-color: white;
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 4px MANTAP KALI.. 
-
-(0,0,0,0.07);
+    box-shadow: 0 4px (0,0,0,0.07);
     border: 1px solid #f0f0f0;
     transition: transform 0.3s ease;
 }
