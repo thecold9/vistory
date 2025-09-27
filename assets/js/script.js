@@ -10,48 +10,111 @@ function escapeHtml(unsafe) {
          .replace(/'/g, "&#039;");
 }
 
-async function loadWishes() {
-    const wishesContainer = document.getElementById('wishes-list');
-    if (!wishesContainer) return;
+// -- FUNGSI BARU UNTUK MEMBERSIHKAN NAMA --
+function normalizeName(nameStr) {
+    if (!nameStr) return '';
+    // Mengubah ke huruf kecil, mengganti '+' dengan spasi, dan menghapus spasi berlebih
+    return nameStr.replace(/\+/g, ' ').trim().toLowerCase();
+}
+
+// -- FUNGSI UNTUK VALIDASI RSVP YANG SUDAH ADA (VERSI BARU) --
+async function checkExistingRsvp() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const guestNameParam = urlParams.get('to');
+
+    if (!guestNameParam) return;
+
+    // Gunakan fungsi normalisasi yang baru
+    const normalizedGuestName = normalizeName(guestNameParam);
+    
+    const rsvpContainer = document.getElementById('rsvp-container');
+    if (!rsvpContainer) return;
 
     try {
-        // Ambil data dari file rsvps.json
+        const response = await fetch('rsvps.json?cachebust=' + new Date().getTime());
+        if (!response.ok) return;
+        
+        const rsvps = await response.json();
+
+        // Bandingkan nama yang sudah dinormalisasi
+        const submissionExists = rsvps.some(
+            rsvp => normalizeName(rsvp.name) === normalizedGuestName
+        );
+
+        if (submissionExists) {
+            rsvpContainer.innerHTML = '<h2>Thank You!</h2><p>Your RSVP has been previously recorded.</p>';
+        }
+    } catch (error) {
+        console.error("Could not check existing RSVPs:", error);
+    }
+}
+
+
+// -- FUNGSI UNTUK MEMUAT UCAPAN DARI JSON (TIDAK PERLU DIUBAH, TAPI DISERTAKAN UNTUK KELENGKAPAN) --
+
+async function loadWishes() {
+    const swiperWrapper = document.querySelector('.wishes-slider .swiper-wrapper');
+    if (!swiperWrapper) return;
+
+    try {
         const response = await fetch('rsvps.json?cachebust=' + new Date().getTime());
         if (!response.ok) throw new Error('File rsvps.json tidak ditemukan.');
         
         const rsvps = await response.json();
+        
+        const validWishes = rsvps
+            .filter(rsvp => rsvp.wish && rsvp.wish.trim() !== '')
+            .reverse(); // Terbaru di atas
 
-        if (!rsvps || rsvps.length === 0) {
-            wishesContainer.innerHTML = '<p>Jadilah yang pertama memberikan ucapan!</p>';
+        if (!validWishes || validWishes.length === 0) {
+            swiperWrapper.innerHTML = '<div class="swiper-slide"><p>Jadilah yang pertama memberikan ucapan!</p></div>';
             return;
         }
 
-        // Filter data yang memiliki ucapan, lalu ubah menjadi HTML
-        const wishesHtml = rsvps
-            .filter(rsvp => rsvp.wish && rsvp.wish.trim() !== '')
-            .map(rsvp => `
+        const wishesPerPage = 10; // Menampilkan 10 ucapan per halaman
+        let slidesHtml = '';
+
+        // KUNCI: Memecah data menjadi beberapa halaman (chunks)
+        for (let i = 0; i < validWishes.length; i += wishesPerPage) {
+            const chunk = validWishes.slice(i, i + wishesPerPage);
+            
+            const cardsHtml = chunk.map(rsvp => `
                 <div class="wish-card">
                     <h4>${escapeHtml(rsvp.name)}</h4>
                     <p>"${escapeHtml(rsvp.wish)}"</p>
                 </div>
-            `)
-            .reverse() // Tampilkan ucapan terbaru di paling atas
-            .join('');
+            `).join('');
 
-        if (wishesHtml) {
-            wishesContainer.innerHTML = wishesHtml;
-        } else {
-            wishesContainer.innerHTML = '<p>Belum ada ucapan yang dibagikan.</p>';
+            slidesHtml += `<div class="swiper-slide"><div class="wishes-grid">${cardsHtml}</div></div>`;
         }
+
+        // Masukkan semua slide yang sudah dibuat ke dalam wrapper
+        swiperWrapper.innerHTML = slidesHtml;
+
+        // Inisialisasi Swiper SETELAH HTML siap
+        new Swiper('.wishes-slider', {
+            loop: false, // Jangan loop jika hanya ada beberapa halaman
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
 
     } catch (error) {
         console.error('Gagal memuat ucapan:', error);
-        wishesContainer.innerHTML = '<p>Tidak dapat memuat ucapan saat ini.</p>';
+        swiperWrapper.innerHTML = '<div class="swiper-slide"><p>Tidak dapat memuat ucapan saat ini.</p></div>';
     }
 }
 
 function jalankanAnimasiKustom() {
     console.log("Menjalankan semua animasi kustom GSAP...");
+      // =================================================================
+    // == PANGGIL FUNGSI VALIDASI & UCAPAN (INI YANG HILANG) ==
+    // =================================================================
+    checkExistingRsvp();
+    loadWishes();
+    // =================================================================
+    
 
     // --- REGISTRASI PLUGIN ---
     gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);

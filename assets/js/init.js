@@ -79,7 +79,7 @@ function runAppLogic() {
     const inputNamaRSVP = document.getElementById('nama');
     if (inputNamaRSVP && namaTamu !== "Tamu Undangan") {
         inputNamaRSVP.value = namaFormatted;
-        inputNamaRSVP.disabled = true;
+        inputNamaRSVP.readOnly = true;
     }
 
     // Event listener untuk tombol masuk

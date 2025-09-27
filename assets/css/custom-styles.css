@@ -444,59 +444,56 @@
     }
 }
 
-/* -- WISHES (UCAPAN) SECTION -- */
-
+/* -- WISHES SECTION (PAGINATION SLIDER) -- */
 .wishes-section {
     padding: 6rem 2rem;
-    /* KUNCI: Samakan dengan latar belakang seksi lainnya */
-    background-color: #f7f5f0; 
+    background-color: #f7f5f0;
     background-image: url('../img/paper-texture.webp');
-    background-repeat: repeat;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-     text-align: center;
+    text-align: center;
 }
-.wishes-section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+/* ... (Style untuk h2 dan p tetap sama) ... */
+
+.wishes-slider {
+    width: 100%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem 1rem 3rem 1rem; /* Beri ruang untuk paginasi di bawah */
+    overflow: hidden;
 }
 
-.wishes-section p {
-    max-width: 500px;
-    margin: 0 auto 3rem auto;
-    color: #666;
-}
-
-/* Kunci #1: Grid responsif untuk kartu ucapan */
-.wishes-list {
-    display: grid;
-    /* Otomatis menyesuaikan jumlah kolom berdasarkan lebar layar */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+.wishes-slider .swiper-slide {
+    /* Setiap slide akan berisi grid ucapan */
     text-align: left;
 }
 
+/* Menggunakan kembali style grid dari sebelumnya, tapi di dalam slide */
+.wishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
 .wish-card {
-    background-color: #fdfdfd;
+    background-color: white;
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    box-shadow: 0 4px MANTAP KALI.. 
+
+(0,0,0,0.07);
     border: 1px solid #f0f0f0;
     transition: transform 0.3s ease;
 }
-
 .wish-card:hover {
     transform: translateY(-5px);
 }
-
 .wish-card h4 {
     font-family: 'Playfair Display', serif;
     margin: 0 0 0.5rem 0;
     color: #333;
     font-size: 1.2rem;
 }
-
 .wish-card p {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -504,6 +501,18 @@
     font-style: italic;
     line-height: 1.6;
     font-size: 0.9rem;
+}
+
+/* Gaya untuk Paginasi Swiper */
+.wishes-slider .swiper-pagination {
+    bottom: 0; /* Posisikan di paling bawah */
+}
+.wishes-slider .swiper-pagination-bullet {
+    background: #a38a6a;
+    opacity: 0.4;
+}
+.wishes-slider .swiper-pagination-bullet-active {
+    opacity: 1;
 }
 
 /* ==========================================================================
@@ -1190,3 +1199,9 @@
     }
 }
 
+.form-group input[readonly] {
+    background-color: #ececec; /* Warna latar sedikit abu-abu */
+    color: #555;               /* Pastikan teks tetap terbaca jelas */
+    cursor: not-allowed;        /* Ubah kursor untuk menandakan tidak bisa diklik */
+    border-color: #ddd;
+}
