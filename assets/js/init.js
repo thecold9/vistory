@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // loadComponent('./components/countdown.html', 'countdown-placeholder'),
             // loadComponent('./components/map.html', 'map-placeholder'),
             loadComponent('./components/rsvp.html', 'rsvp-placeholder'),
+            loadComponent('./components/wishes.html', 'wishes-placeholder'),
             loadComponent('./components/footer.html', 'footer-placeholder')
         ]);
         
@@ -222,10 +223,6 @@ function runAppLogic() {
             });
         }
  
-
-        
-        // 6. Panggil fungsi untuk menampilkan ucapan
-        tampilkanUcapan();
     }
 
     /**
@@ -254,45 +251,7 @@ function runAppLogic() {
         }, 1000);
     }
     
-    /**
-     * Mengambil dan menampilkan data ucapan dari Netlify Function.
-     */
-    async function tampilkanUcapan() {
-        const wishesList = document.getElementById('wishes-list');
-        if (!wishesList) return;
-
-        try {
-            const response = await fetch('/.netlify/functions/get-wishes');
-            const wishes = await response.json();
-
-            if (wishes.length === 0) {
-                wishesList.innerHTML = "<p>Jadilah yang pertama memberikan ucapan!</p>";
-                return;
-            }
-
-            wishesList.innerHTML = ""; // Kosongkan tulisan "memuat..."
-            
-            wishes.forEach(wish => {
-                const wishElement = document.createElement('div');
-                wishElement.className = 'wish-card';
-                wishElement.innerHTML = `
-                    <h4>${wish.nama}</h4>
-                    <p>"${wish.ucapan}"</p>
-                `;
-                wishesList.appendChild(wishElement);
-            });
-
-        } catch (error) {
-            wishesList.innerHTML = "<p>Gagal memuat ucapan.</p>";
-            console.error("Error saat mengambil ucapan:", error);
-        }
-    }
-
-    /**
-     * Fungsi helper untuk memformat nama tamu.
-     * @param {string} nama - Nama dari URL parameter.
-     * @returns {string} Nama yang sudah diformat.
-     */
+   
     function formatNama(nama) {
         const namaDibersihkan = nama.replace(/[+]/g, ' ');
         return namaDibersihkan.split(' ').map(kata => kata.charAt(0).toUpperCase() + kata.slice(1)).join(' ');

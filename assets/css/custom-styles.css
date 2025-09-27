@@ -323,6 +323,7 @@
 /* --- STYLE ELEGAN UNTUK INPUT & TEXTAREA --- */
 .form-group input[type="text"],
 .form-group input[type="number"],
+.form-group select,
 .form-group textarea {
     width: 100%;
     padding: 15px;
@@ -443,50 +444,67 @@
     }
 }
 
-/* ==========================================================================
-   WISHES SECTION
-   ========================================================================== */
+/* -- WISHES (UCAPAN) SECTION -- */
 
 .wishes-section {
-    padding: 4rem 20px;
-    background-color: #fff;
-    text-align: center;
+    padding: 6rem 2rem;
+    /* KUNCI: Samakan dengan latar belakang seksi lainnya */
+    background-color: #f7f5f0; 
+    background-image: url('../img/paper-texture.webp');
+    background-repeat: repeat;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+     text-align: center;
 }
-
 .wishes-section h2 {
-    font-family: var(--font-heading-cover, 'Playfair Display', serif);
-    font-size: 2.5rem;
-    margin-bottom: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
     color: #333;
-}
-
-#wishes-list {
-    max-width: 800px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-.wish-card {
-    background: #fdfdfd;
-    border: 1px solid #eee;
-    padding: 1.5rem;
-    border-radius: 8px;
-    text-align: left;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.wish-card h4 {
-    font-family: var(--font-heading-cover, 'Playfair Display', serif);
     margin-bottom: 0.5rem;
 }
 
-.wish-card p {
-    font-style: italic;
-    color: #555;
+.wishes-section p {
+    max-width: 500px;
+    margin: 0 auto 3rem auto;
+    color: #666;
 }
 
+/* Kunci #1: Grid responsif untuk kartu ucapan */
+.wishes-list {
+    display: grid;
+    /* Otomatis menyesuaikan jumlah kolom berdasarkan lebar layar */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    text-align: left;
+}
+
+.wish-card {
+    background-color: #fdfdfd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease;
+}
+
+.wish-card:hover {
+    transform: translateY(-5px);
+}
+
+.wish-card h4 {
+    font-family: 'Playfair Display', serif;
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.wish-card p {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    color: #666;
+    font-style: italic;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
 
 /* ==========================================================================
    QUOTE SECTION - REVISI AKHIR: FIX GARIS GANDA & TATA LETAK
